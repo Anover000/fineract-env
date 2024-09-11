@@ -28,10 +28,11 @@ spec:
   - protocol: TCP
     port: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
     targetPort: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
+    nodePort: 31792
   selector:
     app: fineract-server
     tier: backend
-  type: LoadBalancer
+  type: NodePort
 
 ---
 
@@ -72,6 +73,8 @@ spec:
         env:
           - name: FINERACT_SERVER_PORT
             value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}"
+          - name: FINERACT_SERVER_SSL_ENABLED
+            value: "false"
           - name: FINERACT_NODE_ID
             value: '1'
           - name: FINERACT_HIKARI_DRIVER_CLASS_NAME
